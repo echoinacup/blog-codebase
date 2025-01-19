@@ -3,3 +3,7 @@ server:
 spring:
   application:
     name: embedded-hazelcast
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8466/eureka/

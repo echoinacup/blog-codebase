@@ -1,0 +1,9 @@
+server:
+  port: 8466
+spring:
+  application:
+    name: registry
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
