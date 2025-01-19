@@ -1,0 +1,5 @@
+server:
+  port: 8470
+spring:
+  application:
+    name: embedded-hazelcast
