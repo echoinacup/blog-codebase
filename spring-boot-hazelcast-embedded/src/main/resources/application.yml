@@ -3,7 +3,13 @@ server:
 spring:
   application:
     name: embedded-hazelcast
+  profiles:
+    active:
+      - docker
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8466/eureka/
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    secure-port-enabled: false
+    hostname: localhost

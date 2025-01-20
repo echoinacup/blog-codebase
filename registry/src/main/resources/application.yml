@@ -1,9 +1,14 @@
 server:
-  port: 8466
+  port: 8761
 spring:
   application:
     name: registry
+  profiles:
+    active:
+      - docker
 eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
+  instance:
+    secure-port-enabled: false
