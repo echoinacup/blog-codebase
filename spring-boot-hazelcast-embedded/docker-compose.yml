@@ -3,8 +3,8 @@ version: "3.9"
 services:
   # Eureka Registry
   registry:
-    image: registry:0.0.2 # Replace with your Eureka server image
-    container_name: registry
+    image: echo-registry:0.0.3 # Replace with your Eureka server image
+    container_name: echo-registry
     ports:
       - "8761:8761"  # Expose Eureka on 8466
     environment:
