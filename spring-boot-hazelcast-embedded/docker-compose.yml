@@ -15,11 +15,12 @@ services:
 
   # Service Instance 1
   service1:
-    image: spring-boot-hazelcast-embedded:0.0.2  # Replace with your Spring Boot service image
+    image: spring-boot-hazelcast-embedded:0.0.3  # Replace with your Spring Boot service image
     container_name: service1
     ports:
       - "8470:8470"  # External port 8070 mapped to internal port 8470
     environment:
+      - SERVICE_ONE_PORT=8470
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry:8761/eureka
       - SERVICE_INSTANCE_ID=service1
@@ -29,11 +30,12 @@ services:
       - eureka-network
   # Service Instance 2
   service2:
-    image: spring-boot-hazelcast-embedded:0.0.2  # Replace with your Spring Boot service image
+    image: spring-boot-hazelcast-embedded:0.0.3  # Replace with your Spring Boot service image
     container_name: service2
     ports:
-      - "8471:8470"  # External port 8071 mapped to internal port 8470
+      - "8471:8471"  # External port 8071 mapped to internal port 8470
     environment:
+      - SERVICE_ONE_PORT=8471
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry:8761/eureka
       - SERVICE_INSTANCE_ID=service2

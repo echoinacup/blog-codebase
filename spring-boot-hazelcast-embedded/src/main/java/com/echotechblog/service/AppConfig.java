@@ -21,8 +21,9 @@ public class AppConfig {
         EurekaOneDiscoveryStrategyFactory.setEurekaClient(eurekaClient);
         Config config = new Config();
         config.addMapConfig(new MapConfig().setName("testEmbeddedCache"));
-        config.getNetworkConfig().setPort(8475);
         config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
+        config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);
+
         var eurekaConfig = config.getNetworkConfig().getJoin().getEurekaConfig();
         eurekaConfig.setEnabled(true)
                 .setProperty("self-registration", "true")
@@ -36,3 +37,14 @@ public class AppConfig {
         return new HazelcastCacheManager(Hazelcast.newHazelcastInstance(config));
     }
 }
+
+//        config.setProperty("hazelcast.max.join.seconds", "20");
+//        config.setProperty("hazelcast.discovery.initial.min.cluster.size", "2");
+// Hazelcast performance and join settings
+//        config.setProperty("hazelcast.max.join.seconds", "10");
+//        config.setProperty("hazelcast.heartbeat.interval.seconds", "1");
+//        config.setProperty("hazelcast.max.no.heartbeat.seconds", "5");
+//        config.setProperty("hazelcast.operation.call.timeout.millis", "3000");
+//        config.setProperty("hazelcast.partition.migration.min.delay.seconds", "1");
+//        config.setProperty("hazelcast.partition.migration.interval.seconds", "1");
+
