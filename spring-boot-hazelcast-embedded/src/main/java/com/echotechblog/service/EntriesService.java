@@ -36,9 +36,7 @@ public class EntriesService {
                         Map.Entry::getValue
                 ));
             } else {
-                DB_MOCK.forEach((key, value) -> {
-                    nativeCacheImpl.put(key, value);
-                });
+                nativeCacheImpl.putAll(DB_MOCK);
                 LOGGER.info("cache was filled with values.");
             }
         }

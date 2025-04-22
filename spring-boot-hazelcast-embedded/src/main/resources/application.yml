@@ -1,5 +1,5 @@
 server:
-  port: ${SERVICE_ONE_PORT}
+  port: ${SERVICE_ONE_PORT:8470}
 spring:
   application:
     name: embedded-hazelcast

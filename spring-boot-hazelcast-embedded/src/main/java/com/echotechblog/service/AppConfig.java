@@ -5,7 +5,12 @@ import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.eureka.one.EurekaOneDiscoveryStrategyFactory;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
+import com.netflix.discovery.AbstractDiscoveryClientOptionalArgs;
 import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.Jersey3DiscoveryClientOptionalArgs;
+import com.netflix.discovery.shared.transport.jersey.TransportClientFactories;
+import com.netflix.discovery.shared.transport.jersey3.Jersey3TransportClientFactories;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -16,13 +21,28 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.echotechblog.service")
 @EnableCaching
 public class AppConfig {
+
+    @Bean
+    @ConditionalOnMissingBean(AbstractDiscoveryClientOptionalArgs.class)
+    public Jersey3DiscoveryClientOptionalArgs jersey3DiscoveryClientOptionalArgs() {
+        return new Jersey3DiscoveryClientOptionalArgs();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(TransportClientFactories.class)
+    public Jersey3TransportClientFactories jersey3TransportClientFactories() {
+        return new Jersey3TransportClientFactories();
+    }
+
     @Bean
     public CacheManager cacheManager(EurekaClient eurekaClient) {
         EurekaOneDiscoveryStrategyFactory.setEurekaClient(eurekaClient);
         Config config = new Config();
+        config.getNetworkConfig().setPort(8426);
         config.addMapConfig(new MapConfig().setName("testEmbeddedCache"));
         config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);
+        config.getNetworkConfig().setPortAutoIncrement(true);
 
         var eurekaConfig = config.getNetworkConfig().getJoin().getEurekaConfig();
         eurekaConfig.setEnabled(true)
@@ -37,14 +57,4 @@ public class AppConfig {
         return new HazelcastCacheManager(Hazelcast.newHazelcastInstance(config));
     }
 }
-
-//        config.setProperty("hazelcast.max.join.seconds", "20");
-//        config.setProperty("hazelcast.discovery.initial.min.cluster.size", "2");
-// Hazelcast performance and join settings
-//        config.setProperty("hazelcast.max.join.seconds", "10");
-//        config.setProperty("hazelcast.heartbeat.interval.seconds", "1");
-//        config.setProperty("hazelcast.max.no.heartbeat.seconds", "5");
-//        config.setProperty("hazelcast.operation.call.timeout.millis", "3000");
-//        config.setProperty("hazelcast.partition.migration.min.delay.seconds", "1");
-//        config.setProperty("hazelcast.partition.migration.interval.seconds", "1");
 
