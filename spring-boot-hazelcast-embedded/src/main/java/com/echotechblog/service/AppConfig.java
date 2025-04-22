@@ -44,6 +44,9 @@ public class AppConfig {
         config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);
         config.getNetworkConfig().setPortAutoIncrement(true);
 
+        config.setProperty("hazelcast.wait.seconds.before.join", "5");
+        // just to wait for the second instance of the service to be able to register as the part of the cluster.
+
         var eurekaConfig = config.getNetworkConfig().getJoin().getEurekaConfig();
         eurekaConfig.setEnabled(true)
                 .setProperty("self-registration", "true")
